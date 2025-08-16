@@ -125,19 +125,27 @@ const config: HardhatUserConfig = {
       url: "https://alfajores-forno.celo-testnet.org",
       accounts: [deployerPrivateKey],
     },
+    monadTestnet: {
+      url: "https://testnet-rpc.monad.xyz",
+      accounts: [deployerPrivateKey],
+      chainId: 10143,
+    },
   },
   // Configuration for harhdat-verify plugin
   etherscan: {
-    apiKey: etherscanApiKey,
+    // apiKey: etherscanApiKey,
+    enabled: false,
+  },
+  sourcify: {
+    enabled: true,
+    apiUrl: "https://sourcify-api-monad.blockvision.org",
+    browserUrl: "https://testnet.monadexplorer.com",
   },
   // Configuration for etherscan-verify from hardhat-deploy plugin
   verify: {
     etherscan: {
       apiKey: etherscanApiKey,
     },
-  },
-  sourcify: {
-    enabled: false,
   },
 };
 
