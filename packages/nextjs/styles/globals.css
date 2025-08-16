@@ -1,70 +1,70 @@
 @import "tailwindcss";
-
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
   --shadow-center: 0 0 12px -2px rgb(0 0 0 / 0.05);
   --animate-pulse-fast: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --gradient-music: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --blur-backdrop: backdrop-filter: blur(20px);
 }
 
 @plugin "daisyui" {
   themes:
-    light,
-    dark --prefersdark;
+    harmonia-light,
+    harmonia-dark --prefersdark;
 }
 
 @plugin "daisyui/theme" {
-  name: "light";
+  name: "harmonia-light";
 
-  --color-primary: #93bbfb;
-  --color-primary-content: #212638;
-  --color-secondary: #dae8ff;
-  --color-secondary-content: #212638;
-  --color-accent: #93bbfb;
-  --color-accent-content: #212638;
-  --color-neutral: #212638;
+  --color-primary: #667eea;
+  --color-primary-content: #ffffff;
+  --color-secondary: #764ba2;
+  --color-secondary-content: #ffffff;
+  --color-accent: #ff6b6b;
+  --color-accent-content: #ffffff;
+  --color-neutral: #1a1a1a;
   --color-neutral-content: #ffffff;
   --color-base-100: #ffffff;
-  --color-base-200: #f4f8ff;
-  --color-base-300: #dae8ff;
-  --color-base-content: #212638;
-  --color-info: #93bbfb;
-  --color-success: #34eeb6;
-  --color-warning: #ffcf72;
-  --color-error: #ff8863;
+  --color-base-200: #f8fafc;
+  --color-base-300: #e2e8f0;
+  --color-base-content: #0f172a;
+  --color-info: #3b82f6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 
-  --radius-field: 9999rem;
-  --radius-box: 1rem;
-  --tt-tailw: 6px;
+  --radius-field: 12px;
+  --radius-box: 16px;
+  --radius-card: 20px;
 }
 
 @plugin "daisyui/theme" {
-  name: "dark";
+  name: "harmonia-dark";
 
-  --color-primary: #212638;
-  --color-primary-content: #f9fbff;
-  --color-secondary: #323f61;
-  --color-secondary-content: #f9fbff;
-  --color-accent: #4969a6;
-  --color-accent-content: #f9fbff;
-  --color-neutral: #f9fbff;
-  --color-neutral-content: #385183;
-  --color-base-100: #385183;
-  --color-base-200: #2a3655;
-  --color-base-300: #212638;
-  --color-base-content: #f9fbff;
-  --color-info: #385183;
-  --color-success: #34eeb6;
-  --color-warning: #ffcf72;
-  --color-error: #ff8863;
+  --color-primary: #667eea;
+  --color-primary-content: #ffffff;
+  --color-secondary: #764ba2;
+  --color-secondary-content: #ffffff;
+  --color-accent: #ff6b6b;
+  --color-accent-content: #ffffff;
+  --color-neutral: #ffffff;
+  --color-neutral-content: #1a1a1a;
+  --color-base-100: #0f0f0f;
+  --color-base-200: #1a1a1a;
+  --color-base-300: #2d2d2d;
+  --color-base-content: #ffffff;
+  --color-info: #60a5fa;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
 
-  --radius-field: 9999rem;
-  --radius-box: 1rem;
-
-  --tt-tailw: 6px;
-  --tt-bg: var(--color-primary);
+  --radius-field: 12px;
+  --radius-box: 16px;
+  --radius-card: 20px;
 }
 
 /*
@@ -84,40 +84,167 @@
     border-color: var(--color-gray-200, currentColor);
   }
 
-  p {
-    margin: 1rem 0;
+  * {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
     min-height: 100vh;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variant-numeric: oldstyle-nums;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
   h3,
-  h4 {
-    margin-bottom: 0.5rem;
-    line-height: 1;
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 2.25rem;
+  }
+
+  h3 {
+    font-size: 1.875rem;
+  }
+
+  p {
+    line-height: 1.6;
+    margin: 1rem 0;
   }
 }
 
 :root,
 [data-theme] {
-  background: var(--color-base-200);
+  background: var(--color-base-100);
 }
 
+/* Modern button styles */
 .btn {
-  @apply shadow-md;
+  @apply font-medium transition-all duration-200 ease-out;
+  border-radius: var(--radius-field);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .btn.btn-ghost {
   @apply shadow-none;
 }
 
+.btn.btn-ghost:hover {
+  transform: none;
+}
+
+/* Glass morphism effects */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Card styles */
+.card-modern {
+  @apply bg-base-100 rounded-2xl shadow-lg border border-base-300/50;
+  transition: all 0.3s ease;
+}
+
+.card-modern:hover {
+  @apply shadow-xl;
+  transform: translateY(-2px);
+}
+
+/* Music player styles */
+.music-card {
+  @apply relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200;
+  border-radius: var(--radius-card);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.music-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Gradient backgrounds */
+.gradient-hero {
+  background: var(--gradient-hero);
+}
+
+.gradient-music {
+  background: var(--gradient-music);
+}
+
+/* Enhanced link styles */
 .link {
-  text-underline-offset: 2px;
+  @apply transition-all duration-200;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
 }
 
 .link:hover {
   opacity: 80%;
+  text-decoration-thickness: 3px;
+}
+
+/* Loading animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-base-200);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-base-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
 }
