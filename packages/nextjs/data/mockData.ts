@@ -451,7 +451,9 @@ export const formatDuration = (seconds: number): string => {
 };
 
 export const formatPrice = (price: number): string => {
-  return `${price} MON`;
+  // 格式化价格，最多显示4位小数，去掉尾随的0
+  const formatted = price.toFixed(4).replace(/\.?0+$/, "");
+  return `${formatted} MON`;
 };
 
 export const formatNumber = (num: number): string => {
