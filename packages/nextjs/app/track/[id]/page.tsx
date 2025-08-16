@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+// import { parseEther } from "viem";
 import {
   ArrowLeftIcon,
   CalendarIcon,
@@ -19,6 +20,8 @@ import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { MusicPlayer } from "~~/components/music/MusicPlayer";
 import { Address } from "~~/components/scaffold-eth";
 import { formatDuration, formatNumber, formatPrice, getTrackById, mockUserCollection } from "~~/data/mockData";
+import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+import { notification } from "~~/utils/scaffold-eth";
 
 export default function TrackDetailPage() {
   const params = useParams();
@@ -28,9 +31,27 @@ export default function TrackDetailPage() {
   const [activeTab, setActiveTab] = useState<"details" | "credits" | "history">("details");
   const [isLiked, setIsLiked] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [isPurchasing, setIsPurchasing] = useState(false);
 
   // 模拟用户是否拥有这个 NFT
   const isOwned = mockUserCollection.some(t => t.id === trackId);
+
+  // Hook for minting NFTs (primary market) - 使用工厂合约
+  const { writeContractAsync: writeFactoryContract } = useScaffoldWriteContract({
+    contractName: "MusicNFTFactory",
+  });
+
+  // Hook for reading from factory to get NFT contract addresses
+  const { data: factorySystems } = useScaffoldReadContract({
+    contractName: "MusicNFTFactory",
+    functionName: "getDeployedSystems",
+    args: ["0x742d35Cc6495C4C4c77Bea9eE5C1e1a7f2B4E3A5"], // 使用艺术家的钱包地址
+  });
+
+  // Hook for buying from secondary market
+  // const { writeContractAsync: writeMarketContract } = useScaffoldWriteContract({
+  //   contractName: "SimpleFixedPriceMarket",
+  // });
 
   if (!track) {
     return (
@@ -45,8 +66,52 @@ export default function TrackDetailPage() {
     );
   }
 
-  const handlePurchase = () => {
-    alert(`模拟购买 ${quantity} 份 "${track.title}" NFT，总价: ${track.nft.price * quantity} MON`);
+  const handlePurchase = async () => {
+    if (!track) return;
+
+    try {
+      setIsPurchasing(true);
+
+      // 计算总价格
+      // const totalPrice = track.nft.price * quantity;
+      // const totalPriceInWei = parseEther(totalPrice.toString());
+
+      // 根据NFT状态决定购买方式
+      if (track.nft.available > 0) {
+        // 检查是否有对应的NFT合约
+        if (factorySystems && factorySystems.length > 0) {
+          // 使用现有的NFT合约
+          notification.info("使用现有NFT合约进行铸造");
+          // TODO: 实现通过具体NFT合约地址进行铸造
+          // 现在先显示提示信息
+          notification.info("NFT铸造功能开发中，请使用测试合约");
+        } else {
+          // 部署新的NFT合约系统
+          try {
+            await writeFactoryContract({
+              functionName: "deployMusicNFTSystem",
+              args: [
+                `${track.title} NFT`,
+                track.artist.name.slice(0, 4).toUpperCase(),
+                "ipfs://QmXxx...", // 基础URI
+              ],
+            });
+            notification.success("NFT合约系统部署成功！请刷新页面后购买");
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          } catch (error) {
+            notification.error("合约部署失败，请重试");
+          }
+        }
+      } else {
+        // 二级市场购买（需要先挂单）
+        notification.error("该NFT已售罄，请查看二级市场");
+      }
+    } catch (error) {
+      console.error("购买失败:", error);
+      notification.error("购买失败，请重试");
+    } finally {
+      setIsPurchasing(false);
+    }
   };
 
   const handleShare = () => {
@@ -337,9 +402,18 @@ export default function TrackDetailPage() {
                       <button
                         onClick={handlePurchase}
                         className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                        disabled={track.nft.available === 0}
+                        disabled={track.nft.available === 0 || isPurchasing}
                       >
-                        {track.nft.available === 0 ? "已售罄" : "立即购买"}
+                        {isPurchasing ? (
+                          <div className="flex items-center justify-center">
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                            处理中...
+                          </div>
+                        ) : track.nft.available === 0 ? (
+                          "已售罄"
+                        ) : (
+                          "立即购买"
+                        )}
                       </button>
                     </div>
 
@@ -374,10 +448,19 @@ export default function TrackDetailPage() {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <button className="py-3 px-6 bg-white/10 hover:bg-white/20 border border-green-400/50 text-green-400 font-medium rounded-xl transition-colors duration-200">
+                    <Link
+                      href="/collection"
+                      className="py-3 px-6 bg-white/10 hover:bg-white/20 border border-green-400/50 text-green-400 font-medium rounded-xl transition-colors duration-200 text-center"
+                    >
                       查看我的收藏
-                    </button>
-                    <button className="py-3 px-6 bg-white/10 hover:bg-white/20 border border-green-400/50 text-green-400 font-medium rounded-xl transition-colors duration-200">
+                    </Link>
+                    <button
+                      onClick={() => {
+                        // TODO: 实现二级市场出售功能
+                        notification.info("二级市场出售功能开发中");
+                      }}
+                      className="py-3 px-6 bg-white/10 hover:bg-white/20 border border-green-400/50 text-green-400 font-medium rounded-xl transition-colors duration-200"
+                    >
                       二级市场出售
                     </button>
                   </div>
