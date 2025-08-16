@@ -4,6 +4,705 @@
  */
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
-const deployedContracts = {} as const;
+const deployedContracts = {
+  10143: {
+    MusicNFTFactory: {
+      address: "0xA28040417C6D998Bd4F276333a91877F66E943aB",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "nftContract",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "vault",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "symbol",
+              type: "string",
+            },
+          ],
+          name: "MusicNFTSystemDeployed",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "symbol",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "baseURI",
+              type: "string",
+            },
+          ],
+          name: "deployMusicNFTSystem",
+          outputs: [
+            {
+              internalType: "address",
+              name: "nftContract",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "vault",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "deployedSystems",
+          outputs: [
+            {
+              internalType: "address",
+              name: "nftContract",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "vault",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "timestamp",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getDeployedSystems",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "nftContract",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "vault",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "timestamp",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct MusicNFTFactory.DeployedSystem[]",
+              name: "",
+              type: "tuple[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getDeployedSystemsCount",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+      deployedOnBlock: 31071638,
+    },
+    SimpleFixedPriceMarket: {
+      address: "0x41E7C90B3003B584Df3E49aD1A62A93F931aa3C1",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "target",
+              type: "address",
+            },
+          ],
+          name: "AddressEmptyCode",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "AddressInsufficientBalance",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "FailedInnerCall",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "ReentrancyGuardReentrantCall",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "token",
+              type: "address",
+            },
+          ],
+          name: "SafeERC20FailedOperation",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "seller",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "currency",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+          ],
+          name: "Listed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "ListingCanceled",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "newPrice",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "newCurrency",
+              type: "address",
+            },
+          ],
+          name: "ListingUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "buyer",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "seller",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "currency",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "royaltyReceiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "royaltyAmount",
+              type: "uint256",
+            },
+          ],
+          name: "Purchased",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "buy",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "cancel",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "getListing",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "nft",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "tokenId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "seller",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "currency",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "price",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "active",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct SimpleFixedPriceMarket.Listing",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "getListingKey",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "currency",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+          ],
+          name: "list",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "nft",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "newCurrency",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "newPrice",
+              type: "uint256",
+            },
+          ],
+          name: "update",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        supportsInterface: "@openzeppelin/contracts/utils/introspection/ERC165.sol",
+      },
+      deployedOnBlock: 31076048,
+    },
+    YourContract: {
+      address: "0x1f1056C54eA82a462305A68Eb40d40e556A236Ee",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_owner",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "greetingSetter",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "newGreeting",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "bool",
+              name: "premium",
+              type: "bool",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "GreetingChange",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "greeting",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "owner",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "premium",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "_newGreeting",
+              type: "string",
+            },
+          ],
+          name: "setGreeting",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "totalCounter",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "userGreetingCounter",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "withdraw",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          stateMutability: "payable",
+          type: "receive",
+        },
+      ],
+      inheritedFunctions: {},
+      deployedOnBlock: 31067863,
+    },
+  },
+} as const;
 
 export default deployedContracts satisfies GenericContractsDeclaration;
