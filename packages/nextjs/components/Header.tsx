@@ -1,21 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-// @ts-ignore
-import { createPortal } from "react-dom";
-import { ChevronDownIcon, HomeIcon, MagnifyingGlassIcon, MusicalNoteIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { Avatar } from "~~/components/ui/Avatar";
-
-// Mock user data for demo
-const mockUser = {
-  name: "Alex Chen",
-  username: "@alexmusic",
-  avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-  balance: "2.0000",
-  isConnected: true, // 设置为 true 来显示头像，false 显示连接按钮
-};
+import { HomeIcon, MagnifyingGlassIcon, MusicalNoteIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 
 type HeaderMenuLink = {
   label: string;
@@ -113,160 +102,6 @@ const SearchBar = () => {
           </kbd>
         </div>
       </div>
-    </div>
-  );
-};
-
-const UserAvatar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
-
-  // 计算下拉菜单位置
-  useEffect(() => {
-    if (isDropdownOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-      setDropdownPosition({
-        top: rect.bottom + scrollTop + 8, // 按钮底部 + 8px 间距
-        right: window.innerWidth - rect.right, // 右对齐
-      });
-    }
-  }, [isDropdownOpen]);
-
-  if (!mockUser.isConnected) {
-    // 未连接状态 - 显示连接按钮
-    return (
-      <div className="relative group">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-xl blur opacity-25 group-hover:opacity-50 transition-opacity duration-300"></div>
-        <button className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl px-4 py-2 hover:bg-white/15 hover:border-white/30 transition-all duration-300 text-white font-semibold">
-          连接钱包
-        </button>
-      </div>
-    );
-  }
-
-  // 已连接状态 - 显示头像和下拉菜单
-  return (
-    <div className="relative">
-      <button
-        ref={buttonRef}
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="relative group flex items-center space-x-3"
-      >
-        {/* Glow effect */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-
-        {/* Main container */}
-        <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-2 hover:bg-white/15 hover:border-white/30 transition-all duration-300">
-          <div className="flex items-center space-x-3">
-            {/* Balance and Network Info */}
-            <div className="text-right">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-bold text-white">{mockUser.balance} MON</span>
-              </div>
-              <div className="flex items-center space-x-2 justify-end">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-xs text-white/70 font-medium">Monad</span>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className="w-px h-8 bg-white/20"></div>
-
-            {/* User Avatar */}
-            <div className="flex items-center space-x-2">
-              <Avatar
-                src={mockUser.avatar}
-                alt={mockUser.name}
-                size={32}
-                className="ring-2 ring-white/30 group-hover:ring-white/50 transition-all duration-300"
-              />
-              <div className="hidden lg:block text-left">
-                <div className="text-sm font-semibold text-white">{mockUser.name}</div>
-                <div className="text-xs text-white/60">{mockUser.username}</div>
-              </div>
-              <ChevronDownIcon
-                className={`h-4 w-4 text-white/70 transition-transform duration-200 ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
-              />
-            </div>
-          </div>
-        </div>
-      </button>
-
-      {/* Dropdown Menu using Portal */}
-      {isDropdownOpen &&
-        typeof window !== "undefined" &&
-        createPortal(
-          <>
-            {/* Backdrop */}
-            <div className="fixed inset-0 z-[9998] bg-black/20" onClick={() => setIsDropdownOpen(false)}></div>
-
-            {/* Menu */}
-            <div
-              className="fixed w-64 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl shadow-xl z-[9999] overflow-hidden"
-              style={{
-                top: `${dropdownPosition.top}px`,
-                right: `${dropdownPosition.right}px`,
-              }}
-            >
-              {/* User Info Header */}
-              <div className="p-4 border-b border-white/10">
-                <div className="flex items-center space-x-3">
-                  <Avatar src={mockUser.avatar} alt={mockUser.name} size={40} className="ring-2 ring-white/30" />
-                  <div>
-                    <div className="text-sm font-semibold text-white">{mockUser.name}</div>
-                    <div className="text-xs text-white/60">{mockUser.username}</div>
-                    <div className="text-xs text-white/50 mt-1">Monad 网络</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Menu Items */}
-              <div className="py-2">
-                <Link
-                  href="/collection"
-                  className="flex items-center px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  <MusicalNoteIcon className="h-4 w-4 mr-3" />
-                  我的收藏
-                </Link>
-                <Link
-                  href="/creators"
-                  className="flex items-center px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  <PlusIcon className="h-4 w-4 mr-3" />
-                  创作者中心
-                </Link>
-                <div className="border-t border-white/10 my-2"></div>
-                <button
-                  className="w-full flex items-center px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
-                  onClick={() => {
-                    setIsDropdownOpen(false);
-                    // 这里可以添加断开连接的逻辑
-                    alert("断开钱包连接 (Demo)");
-                  }}
-                >
-                  <svg className="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                    />
-                  </svg>
-                  断开连接
-                </button>
-              </div>
-            </div>
-          </>,
-          document.body,
-        )}
     </div>
   );
 };
@@ -413,7 +248,7 @@ export const Header = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
-            <UserAvatar />
+            <RainbowKitCustomConnectButton />
           </div>
         </div>
       </div>
